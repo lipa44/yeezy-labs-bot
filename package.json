@@ -26,7 +26,7 @@
   },
   "name": "bot",
   "version": "1.0.0",
-  "main": "node js/bot.js",
+  "main": "bot.js",
   "license": "MIT",
   "devDependencies": {},
   "author": "",

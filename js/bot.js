@@ -2,14 +2,11 @@ const token = "1659667430:AAGB1JMPmWvgl1iY5bBmuq5NCNeI5KpDqr0";
 const token_sber = "401643678:TEST:67a0ddff-2651-4c09-8a13-43b56e3dea54";
 const fetch = require("node-fetch");
 const {Telegraf} = require('telegraf');
+const {options, paymentOptions, ProgOptions, againOptions} = require('./keyboards/options.js');
 const bot = new Telegraf(token);
 const MY_ID = 316816204
 
 require("dotenv").config();
-let options = require('./keyboards/options.js');
-let paymentOptions = require('./keyboards/paymentOptions.js');
-let ProgOptions = require('./keyboards/ProgOptions.js');
-let againOptions = require('./keyboards/againOptions.js');
 
 let NumberOfLab;
 
@@ -127,13 +124,13 @@ let invoiceFactory = function (id, title, label, amount, url) {
         chat_id: id,
         start_parameter: 'get_access',
         provider_token: token_sber,
-        title: title, // Название продукта, 1-32 символа
-        description: 'Лучшая лаба', // Описание продукта, 1-255 знаков
+        title: title, // 1-32 символа
+        description: 'Лучшая лаба', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
         prices: [{label: label, amount: amount}], // Разбивка цен, сериализованный список компонентов в формате JSON 100 копеек * 100 = 100 рублей
-        photo_url: url, // URL фотографии товара для счета-фактуры. Это может быть фотография товара или рекламное изображение услуги. Людям больше нравится, когда они видят, за что платят.
-        photo_width: 600, // Ширина фото
-        photo_height: 600, // Длина фото
+        photo_url: url, // URL фотографии товара для счета-фактуры. Это может быть фотография товара или рекламное изображение услуги.
+        photo_width: 600,
+        photo_height: 600,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: `${id}_${Number(new Date())}`,
             provider_token: token_sber
