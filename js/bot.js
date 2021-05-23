@@ -1,27 +1,25 @@
 const token = "1659667430:AAGB1JMPmWvgl1iY5bBmuq5NCNeI5KpDqr0";
-const token_sber = "401643678:TEST:67a0ddff-2651-4c09-8a13-43b56e3dea54";
 const fetch = require("node-fetch");
 const {Telegraf} = require('telegraf');
-const {options, paymentOptions, ProgOptions, againOptions} = require('./keyboards/options.js');
 const bot = new Telegraf(token);
-const MY_ID = 316816204
 
-require("dotenv").config();
+const MY_ID = 316816204
 const {Lab2, Lab3, Lab4, Lab5, Lab6} = require('./lab_objects/invoices.js');
+const {options, paymentOptions, ProgOptions, againOptions} = require('./keyboards/options.js');
 
 let NumberOfLab;
 
-let friends = Array(316816204, 821173837, 848279890, 471236927, 371534155, 259399114);
+let friends = [];
+let friends1 = Array(316816204, 821173837, 848279890, 471236927, 371534155, 259399114);
 
 bot.telegram.setMyCommands([
-    {command: '/labs', description: 'Клавиатура с выбором лаб'},
-    {command: '/start', description: 'Начало работы с ботом'},
+    {command: '/labs', description: 'Клавиатура с выбором лаб'}
 ])
 
 bot.start(async (ctx) => {
     console.log(ctx.from.username + " /start");
     await ctx.reply(
-        `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему научит!\n` +
+        `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему тебя научит!\n` +
         `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
         `2) Напиши /отзыв и то, что ты хочешь сказать разработчику в том же сообщении (например, благодарность)`);
     return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
@@ -52,11 +50,14 @@ bot.on('callback_query', async (ctx) => {
         case "1":
             NumberOfLab = 1;
             await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
+
+            if (ctx.from.id !== MY_ID)
+                // Отправляю себе в лс действие
+                await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + `Лаба 1 выдана\n`);
+
             let path = "Programming/Lab1/";
             await ctx.replyWithDocument({source: `${path}Laba1.zip`});
-
-            // Отправляю себе в лс действие
-            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба 1 выдана\n`);
+            return ctx.reply("Хочешь остальные лабы?", againOptions);
         case "2":
             NumberOfLab = 2;
             return ProgReply(2, ctx);
@@ -77,7 +78,7 @@ bot.on('callback_query', async (ctx) => {
             return ctx.editMessageText('Алгосы пока не завезли');
         case "Купить":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab)));
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab, ctx.from.id)));
         case "Выйти":
             await ctx.deleteMessage(ctx.chat_id);
             return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/840/5d2/8405d27b-2c91-300d-85cd-7dbd425a6e97/1.webp');
@@ -87,7 +88,6 @@ bot.on('callback_query', async (ctx) => {
         case "Закончить работу":
             await ctx.deleteMessage(ctx.chat_id);
             return ctx.reply("Будем ждать тебя снова!");
-
     }
 });
 
@@ -98,12 +98,8 @@ async function ProgReply(NumberOfLab, ctx) {
         await ctx.replyWithDocument({source: `${path}Laba${NumberOfLab}.zip`})
         if (ctx.from.id !== MY_ID)
             // Отправляю себе в лс действие
-            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба ${NumberOfLab} выдана\n`);
+            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + `Лаба ${NumberOfLab} выдана (он - друг)\n`);
     } else {
-
-        // Отправляю себе в лс действие
-        if (ctx.from.id !== MY_ID)
-            await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба ${NumberOfLab} НЕ выдана\n`);
 
         return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n`
             + `Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
@@ -115,6 +111,10 @@ bot.on('pre_checkout_query', async (ctx) => await ctx.answerPreCheckoutQuery(tru
 bot.on('successful_payment', async (ctx, next) => { // ответ в случае положительной оплаты
     await ctx.reply('С вами приятно иметь дело!');
     await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
+
+    if (ctx.from.id !== MY_ID)
+        await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n" + ` лаба ${NumberOfLab} выдана!\n`);
+
     return ctx.reply("Продолжим?", againOptions);
 })
 
@@ -122,17 +122,27 @@ function getInvoice(id, invoice) {
     return invoice;
 }
 
-function find_lab(NumberOfLab) {
+function find_lab(NumberOfLab, id) {
     switch (NumberOfLab) {
         case 2:
+            Lab2.chat_id = id;
+            Lab2.unique_id = `${id}_${Number(new Date())}`
             return Lab2;
         case 3:
+            Lab3.chat_id = id;
+            Lab3.unique_id = `${id}_${Number(new Date())}`
             return Lab3;
         case 4:
+            Lab4.chat_id = id;
+            Lab4.unique_id = `${id}_${Number(new Date())}`
             return Lab4;
         case 5:
+            Lab5.chat_id = id;
+            Lab5.unique_id = `${id}_${Number(new Date())}`
             return Lab5;
         case 6:
+            Lab6.chat_id = id;
+            Lab6.unique_id = `${id}_${Number(new Date())}`
             return Lab6;
     }
 }
