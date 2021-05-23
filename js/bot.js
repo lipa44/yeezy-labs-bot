@@ -9,30 +9,36 @@ require("dotenv").config();
 let options = require('./keyboards/options.js');
 let paymentOptions = require('./keyboards/paymentOptions.js');
 let ProgOptions = require('./keyboards/ProgOptions.js');
+let againOptions = require('./keyboards/againOptions.js');
 
 let NumberOfLab;
 
-
 let friends = Array(316816204, 821173837, 848279890, 471236927, 371534155, 259399114);
 
-bot.start((ctx) => {
+bot.telegram.setMyCommands([
+    {command: '/labs', description: 'Клавиатура с выбором лаб'},
+    {command: '/start', description: 'Начало работы с ботом'},
+])
+
+bot.start(async (ctx) => {
     console.log(ctx.from.username + " /start");
-    return ctx.reply(
+    await ctx.reply(
         `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему научит!\n` +
     `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
     `2) Напиши /отзыв и то, что ты хочешь сказать разработчику в том же сообщении (например, благодарность)`);
+    return  ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
 });
 
 bot.hears(/\/отзыв (.+)/, async (ctx) => {
     let review = ctx.message.text.split("/отзыв").pop();
     await bot.telegram.sendMessage(MY_ID, `НОВЫЙ ОТЗЫВ:${review}.\n\nАвтор отзыва - @${ctx.from.username}`);
 
-    await ctx.reply("Спасибо за отзыв!");
+    return ctx.reply("Спасибо за отзыв!");
 });
 
 bot.command("labs", async (ctx) => {
-    function answer() {
-        ctx.reply('Выбери предмет:', options);
+    async function answer() {
+        return ctx.reply('Выбери предмет:', options);
     }
 
     setTimeout(answer, 1000); // чтобы бот не крашился при многократных запросах
@@ -44,8 +50,7 @@ bot.on('callback_query', async (ctx) => {
     switch (ctx.callbackQuery.data) {
         case "Прога":
             await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-            ctx.reply('Лабы 2го сема:', ProgOptions);
-            break;
+            return ctx.reply('Лабы 2го сема:', ProgOptions);
         case "1":
             NumberOfLab = 1;
             await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
@@ -53,61 +58,67 @@ bot.on('callback_query', async (ctx) => {
             await ctx.replyWithDocument({source: `${path}Laba1.zip`});
 
             // Отправляю себе в лс действие
-            await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба 1 выдана\n`);
-            break;
+            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба 1 выдана\n`);
         case "2":
             NumberOfLab = 2;
-            await ProgReply(2, ctx);
-            break;
+            return ProgReply(2, ctx);
         case "3":
             NumberOfLab = 3;
-            await ProgReply(3, ctx);
-            break;
+            return ProgReply(3, ctx);
         case "4":
             NumberOfLab = 4;
-            await ProgReply(4, ctx);
-            break;
+            return ProgReply(4, ctx);
         case "5":
             NumberOfLab = 5;
-            await ProgReply(5, ctx);
-            break;
+            return ProgReply(5, ctx);
         case "6":
             NumberOfLab = 6;
-            await ProgReply(6, ctx);
-            break;
+            return ProgReply(6, ctx);
         case "Алгосы":
             // await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-            await ctx.editMessageText('Алгосы пока не завезли');
-            break;
+            return ctx.editMessageText('Алгосы пока не завезли');
         case "Купить":
-            ctx.deleteMessage(ctx.chat_id);
-
-            await ctx.replyWithInvoice(getInvoice(ctx.from.id, invoiceFactory(ctx.from.id, `Лаба №${NumberOfLab}`, `Лабораторная работа №${NumberOfLab}`, 2000 * 100, 'https://pngimg.com/uploads/rubik_cube/rubik_cube_PNG36.png')));
-            break;
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, invoiceFactory(ctx.from.id, `Лаба №${NumberOfLab}`, `Лабораторная работа №${NumberOfLab}`, 2000 * 100, 'https://pngimg.com/uploads/rubik_cube/rubik_cube_PNG36.png')));
         case "Выйти":
-            await ctx.editMessageText('Будем ждать тебя позже)');
-            break;
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/840/5d2/8405d27b-2c91-300d-85cd-7dbd425a6e97/1.webp');
+        case "Заново":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.reply('Выбери предмет:', options);
+        case "Закончить работу":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.reply("Будем ждать тебя снова!");
+
     }
 });
 
 async function ProgReply(NumberOfLab, ctx) {
-    ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
+    await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
     let path = `Programming/Lab${NumberOfLab}/`;
     if (friends.includes(ctx.from.id, 0) && ctx.from.id !== MY_ID) {
         await ctx.replyWithDocument({source: `${path}Laba${NumberOfLab}.zip`})
         if (ctx.from.id !== MY_ID)
             // Отправляю себе в лс действие
-            await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба ${NumberOfLab} выдана\n`);
+            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба ${NumberOfLab} выдана\n`);
     } else {
-        await ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)`);
 
         // Отправляю себе в лс действие
         if (ctx.from.id !== MY_ID)
             await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + ` лаба ${NumberOfLab} НЕ выдана\n`);
 
-        await ctx.reply(`Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
+        return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n`
+            + `Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
     }
 }
+
+bot.on('pre_checkout_query', async (ctx) => await ctx.answerPreCheckoutQuery(true)) // ответ на предварительный запрос по оплате
+
+bot.on('successful_payment', async (ctx, next) => { // ответ в случае положительной оплаты
+    await ctx.reply('С вами приятно иметь дело!');
+    await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
+    return ctx.reply("Продолжим?", againOptions);
+})
 
 let invoiceFactory = function (id, title, label, amount, url) {
 
@@ -133,13 +144,6 @@ let invoiceFactory = function (id, title, label, amount, url) {
 };
 
 const getInvoice = (id, invoice) => { return invoice; }
-
-bot.on('pre_checkout_query', (ctx) => ctx.answerPreCheckoutQuery(true)) // ответ на предварительный запрос по оплате
-
-bot.on('successful_payment', async (ctx, next) => { // ответ в случае положительной оплаты
-    await ctx.reply('С вами приятно иметь дело!');
-    await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
-})
 
 bot.launch();
 
