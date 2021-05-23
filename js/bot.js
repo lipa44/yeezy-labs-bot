@@ -7,6 +7,7 @@ const bot = new Telegraf(token);
 const MY_ID = 316816204
 
 require("dotenv").config();
+const {Lab2, Lab3, Lab4, Lab5, Lab6} = require('./lab_objects/invoices.js');
 
 let NumberOfLab;
 
@@ -21,9 +22,9 @@ bot.start(async (ctx) => {
     console.log(ctx.from.username + " /start");
     await ctx.reply(
         `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему научит!\n` +
-    `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
-    `2) Напиши /отзыв и то, что ты хочешь сказать разработчику в том же сообщении (например, благодарность)`);
-    return  ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
+        `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
+        `2) Напиши /отзыв и то, что ты хочешь сказать разработчику в том же сообщении (например, благодарность)`);
+    return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
 });
 
 bot.hears(/\/отзыв (.+)/, async (ctx) => {
@@ -76,7 +77,7 @@ bot.on('callback_query', async (ctx) => {
             return ctx.editMessageText('Алгосы пока не завезли');
         case "Купить":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, invoiceFactory(ctx.from.id, `Лаба №${NumberOfLab}`, `Лабораторная работа №${NumberOfLab}`, 2000 * 100, 'https://pngimg.com/uploads/rubik_cube/rubik_cube_PNG36.png')));
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab)));
         case "Выйти":
             await ctx.deleteMessage(ctx.chat_id);
             return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/840/5d2/8405d27b-2c91-300d-85cd-7dbd425a6e97/1.webp');
@@ -117,30 +118,24 @@ bot.on('successful_payment', async (ctx, next) => { // ответ в случа�
     return ctx.reply("Продолжим?", againOptions);
 })
 
-let invoiceFactory = function (id, title, label, amount, url) {
-
-    // создаем новый временный объект
-    const invoice = {
-        chat_id: id,
-        start_parameter: 'get_access',
-        provider_token: token_sber,
-        title: title, // 1-32 символа
-        description: 'Лучшая лаба', // 1-255 знаков
-        currency: 'RUB', // Трехбуквенный код валюты ISO 4217
-        prices: [{label: label, amount: amount}], // Разбивка цен, сериализованный список компонентов в формате JSON 100 копеек * 100 = 100 рублей
-        photo_url: url, // URL фотографии товара для счета-фактуры. Это может быть фотография товара или рекламное изображение услуги.
-        photo_width: 600,
-        photo_height: 600,
-        payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
-            unique_id: `${id}_${Number(new Date())}`,
-            provider_token: token_sber
-        }
-    };
-
+function getInvoice(id, invoice) {
     return invoice;
-};
+}
 
-const getInvoice = (id, invoice) => { return invoice; }
+function find_lab(NumberOfLab) {
+    switch (NumberOfLab) {
+        case 2:
+            return Lab2;
+        case 3:
+            return Lab3;
+        case 4:
+            return Lab4;
+        case 5:
+            return Lab5;
+        case 6:
+            return Lab6;
+    }
+}
 
 bot.launch();
 
