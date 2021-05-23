@@ -6,6 +6,12 @@ const bot = new Telegraf(token);
 const MY_ID = 316816204
 
 require("dotenv").config();
+const options = require('./keyboards/options.js');
+const paymentOptions = require('./keyboards/paymentOptions.js');
+const ProgOptions = require('./keyboards/ProgOptions.js');
+
+let NumberOfLab;
+
 
 let friends = Array(316816204, 821173837, 848279890, 471236927, 371534155, 259399114);
 
@@ -13,7 +19,8 @@ bot.start((ctx) => {
     console.log(ctx.from.username + " /start");
     return ctx.reply(
         `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему научит!\n` +
-    `Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.`);
+    `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
+    `2) Напиши /отзыв и то, что ты хочешь сказать разработчику в том же сообщении (например, благодарность)`);
 });
 
 bot.hears(/\/отзыв (.+)/, async (ctx) => {
@@ -22,12 +29,6 @@ bot.hears(/\/отзыв (.+)/, async (ctx) => {
 
     await ctx.reply("Спасибо за отзыв!");
 });
-
-let NumberOfLab;
-
-let options = require('./keyboards/options.js');
-let paymentOptions = require('./keyboards/paymentOptions.js');
-let ProgOptions = require('./keyboards/ProgOptions.js');
 
 bot.command("labs", async (ctx) => {
     function answer() {
