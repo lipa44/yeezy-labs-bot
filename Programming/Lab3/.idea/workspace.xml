@@ -1,0 +1,151 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="CMakeRunConfigurationManager" shouldGenerate="true" shouldDeleteObsolete="true">
+    <generated>
+      <config projectName="Laba3" targetName="Laba3" />
+    </generated>
+  </component>
+  <component name="CMakeSettings">
+    <configurations>
+      <configuration PROFILE_NAME="Debug" CONFIG_NAME="Debug" />
+      <configuration PROFILE_NAME="Debug-Coverage" CONFIG_NAME="Debug" GENERATION_OPTIONS="-DCMAKE_CXX_FLAGS=&quot;-fprofile-instr-generate -fcoverage-mapping&quot; -DCMAKE_C_FLAGS=&quot;-fprofile-instr-generate -fcoverage-mapping&quot;" />
+    </configurations>
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="bdefe1df-5db2-4678-bc51-94cc932a4a9d" name="Default Changelist" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="ClangdSettings">
+    <option name="clangTidyViaClangd" value="false" />
+    <option name="formatViaClangd" value="false" />
+  </component>
+  <component name="ExecutionTargetManager" SELECTED_TARGET="CMakeBuildProfile:Debug" />
+  <component name="ProjectId" id="1okG14LDEtfLVX3TsskaFbqAmEH" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+    <option name="showMembers" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="cf.first.check.clang-format" value="false" />
+    <property name="nodejs_package_manager_path" value="npm" />
+    <property name="restartRequiresConfirmation" value="false" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/pugixml" />
+      <recent name="$PROJECT_DIR$/cmake-build-debug" />
+      <recent name="$PROJECT_DIR$" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="Laba3" type="CMakeRunConfiguration" factoryName="Application" REDIRECT_INPUT="false" PASS_PARENT_ENVS_2="true" PROJECT_NAME="Laba3" TARGET_NAME="Laba3" CONFIG_NAME="Debug" RUN_TARGET_PROJECT_NAME="Laba3" RUN_TARGET_NAME="Laba3">
+      <method v="2">
+        <option name="com.jetbrains.cidr.execution.CidrBuildBeforeRunTaskProvider$BuildBeforeRunTask" enabled="true" />
+      </method>
+    </configuration>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="bdefe1df-5db2-4678-bc51-94cc932a4a9d" name="Default Changelist" comment="" />
+      <created>1613822958692</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1613822958692</updated>
+      <workItem from="1613822962330" duration="32000" />
+      <workItem from="1613826438068" duration="1000" />
+      <workItem from="1614385142355" duration="2739000" />
+      <workItem from="1614447492791" duration="1817000" />
+      <workItem from="1614449532050" duration="86000" />
+      <workItem from="1614449634595" duration="7190000" />
+      <workItem from="1614457367730" duration="33356000" />
+      <workItem from="1614524095798" duration="2832000" />
+      <workItem from="1614549775222" duration="4558000" />
+      <workItem from="1614554884162" duration="6754000" />
+      <workItem from="1614561987999" duration="484000" />
+      <workItem from="1614562647730" duration="689000" />
+      <workItem from="1614582889965" duration="537000" />
+      <workItem from="1614583521987" duration="416000" />
+      <workItem from="1614587800138" duration="37000" />
+      <workItem from="1614588148645" duration="107000" />
+      <workItem from="1614588526045" duration="118000" />
+      <workItem from="1614588864325" duration="133000" />
+      <workItem from="1614594764312" duration="731000" />
+      <workItem from="1614787050696" duration="296000" />
+      <workItem from="1614856242385" duration="2969000" />
+      <workItem from="1614875399809" duration="15000" />
+      <workItem from="1615480307909" duration="231000" />
+      <workItem from="1616083883988" duration="86000" />
+      <workItem from="1616099361236" duration="206000" />
+      <workItem from="1616692964186" duration="1035000" />
+      <workItem from="1617008404047" duration="1407000" />
+      <workItem from="1617010811723" duration="11918000" />
+      <workItem from="1617024031908" duration="860000" />
+      <workItem from="1617025022499" duration="934000" />
+      <workItem from="1617069780243" duration="1691000" />
+      <workItem from="1617455581912" duration="2147000" />
+      <workItem from="1617464897675" duration="2537000" />
+      <workItem from="1617539045716" duration="374000" />
+      <workItem from="1617696098817" duration="74000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="320" y="112" key="#New_File_Extensions" timestamp="1614385537827">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="320" y="112" key="#New_File_Extensions/0.0.1440.900@0.0.1440.900" timestamp="1614385537827" />
+    <state x="458" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog" timestamp="1617017729622">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="458" y="201" key="#com.intellij.refactoring.safeDelete.UnsafeUsagesDialog/0.0.1440.900@0.0.1440.900" timestamp="1617017729622" />
+    <state width="483" height="466" key="DebuggerActiveHint" timestamp="1617466143419">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="483" height="466" key="DebuggerActiveHint/0.0.1440.900@0.0.1440.900" timestamp="1617466143419" />
+    <state width="1398" height="56" key="GridCell.Tab.0.bottom" timestamp="1617538673690">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="56" key="GridCell.Tab.0.bottom/0.0.1440.900@0.0.1440.900" timestamp="1617538673690" />
+    <state width="1398" height="2" key="GridCell.Tab.0.bottom/0.25.1440.792@0.25.1440.792" timestamp="1614558491725" />
+    <state width="1398" height="56" key="GridCell.Tab.0.center" timestamp="1617538673689">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="56" key="GridCell.Tab.0.center/0.0.1440.900@0.0.1440.900" timestamp="1617538673689" />
+    <state width="1398" height="2" key="GridCell.Tab.0.center/0.25.1440.792@0.25.1440.792" timestamp="1614558491723" />
+    <state width="1398" height="56" key="GridCell.Tab.0.left" timestamp="1617538673689">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="56" key="GridCell.Tab.0.left/0.0.1440.900@0.0.1440.900" timestamp="1617538673689" />
+    <state width="1398" height="2" key="GridCell.Tab.0.left/0.25.1440.792@0.25.1440.792" timestamp="1614558491722" />
+    <state width="1398" height="56" key="GridCell.Tab.0.right" timestamp="1617538673690">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="1398" height="56" key="GridCell.Tab.0.right/0.0.1440.900@0.0.1440.900" timestamp="1617538673690" />
+    <state width="1398" height="2" key="GridCell.Tab.0.right/0.25.1440.792@0.25.1440.792" timestamp="1614558491724" />
+    <state width="600" height="428" key="javadoc.popup" timestamp="1617020372604">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state width="600" height="428" key="javadoc.popup/0.0.1440.900@0.0.1440.900" timestamp="1617020372604" />
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup" timestamp="1614518432742">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="210" width="670" height="675" key="run.anything.popup/0.0.1440.900@0.0.1440.900" timestamp="1614518432742" />
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup" timestamp="1614474447080">
+      <screen x="0" y="0" width="1440" height="900" />
+    </state>
+    <state x="385" y="196" width="670" height="676" key="search.everywhere.popup/0.0.1440.900@0.0.1440.900" timestamp="1614474447080" />
+  </component>
+  <component name="com.intellij.coverage.CoverageDataManagerImpl">
+    <SUITE FILE_PATH="../../../../Desktop/Laba3/cmake-build-debug-coverage" NAME="Laba3 Coverage Results" MODIFIED="1614595400153" SOURCE_PROVIDER="com.intellij.coverage.DefaultCoverageFileProvider" RUNNER="gcov/llvm" COVERAGE_BY_TEST_ENABLED="false" COVERAGE_TRACING_ENABLED="false" />
+  </component>
+</project>
