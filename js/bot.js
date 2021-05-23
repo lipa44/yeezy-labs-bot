@@ -6,9 +6,9 @@ const bot = new Telegraf(token);
 const MY_ID = 316816204
 
 require("dotenv").config();
-const options = require('./keyboards/options.js');
-const paymentOptions = require('./keyboards/paymentOptions.js');
-const ProgOptions = require('./keyboards/ProgOptions.js');
+let options = require('./keyboards/options.js');
+let paymentOptions = require('./keyboards/paymentOptions.js');
+let ProgOptions = require('./keyboards/ProgOptions.js');
 
 let NumberOfLab;
 
@@ -75,14 +75,14 @@ bot.on('callback_query', async (ctx) => {
             NumberOfLab = 6;
             await ProgReply(6, ctx);
             break;
+        case "Алгосы":
+            // await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
+            await ctx.editMessageText('Алгосы пока не завезли');
+            break;
         case "Купить":
             ctx.deleteMessage(ctx.chat_id);
 
             await ctx.replyWithInvoice(getInvoice(ctx.from.id, invoiceFactory(ctx.from.id, `Лаба №${NumberOfLab}`, `Лабораторная работа №${NumberOfLab}`, 2000 * 100, 'https://pngimg.com/uploads/rubik_cube/rubik_cube_PNG36.png')));
-            break;
-        case "Алгосы":
-            // await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-            await ctx.editMessageText('Алгосы пока не завезли');
             break;
         case "Выйти":
             await ctx.editMessageText('Будем ждать тебя позже)');
