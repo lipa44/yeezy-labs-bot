@@ -4,8 +4,29 @@ const {Telegraf} = require('telegraf');
 const bot = new Telegraf(token);
 
 const MY_ID = 316816204
-const {Lab2, Lab3, Lab4, Lab5, Lab6} = require('./lab_objects/invoices.js');
-const {options, paymentOptions, ProgOptions, againOptions} = require('./keyboards/options.js');
+
+const {
+    Lab2,
+    Lab3,
+    Lab4,
+    Lab5,
+    Lab6_VisualMacOS,
+    Lab6_1_notVisual,
+    Lab6_2_notVisual,
+    Lab6_3_notVisual,
+    Lab6_VisualWindows
+} = require('./lab_objects/invoices.js');
+
+const {
+    options,
+    paymentOptions,
+    ProgOptions,
+    againOptions,
+    lab6paymentOptions,
+    lab6IfVisualOptions,
+    visualLab6Options,
+    nonVisualLab6Options
+} = require('./keyboards/options.js');
 
 let NumberOfLab;
 
@@ -47,47 +68,96 @@ bot.on('callback_query', async (ctx) => {
         case "Прога":
             await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
             return ctx.reply('Лабы 2го сема:', ProgOptions);
+
         case "1":
             NumberOfLab = 1;
             await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
 
             if (ctx.from.id !== MY_ID)
                 // Отправляю себе в лс действие
-                await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + `Лаба 1 выдана\n`);
+                await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
+                    ctx.from.first_name + "\n/labs" + `Лаба 1 выдана\n`);
 
             let path = "Programming/Lab1/";
             await ctx.replyWithDocument({source: `${path}Laba1.zip`});
             return ctx.reply("Хочешь остальные лабы?", againOptions);
+
         case "2":
             NumberOfLab = 2;
             return ProgReply(2, ctx);
+
         case "3":
             NumberOfLab = 3;
             return ProgReply(3, ctx);
+
         case "4":
             NumberOfLab = 4;
             return ProgReply(4, ctx);
+
         case "5":
             NumberOfLab = 5;
             return ProgReply(5, ctx);
+
         case "6":
             NumberOfLab = 6;
             return ProgReply(6, ctx);
+
         case "Алгосы":
             // await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
             return ctx.editMessageText('Алгосы пока не завезли');
+
         case "Купить":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab, ctx.from.id)));
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab.toString(), ctx.from.id)));
+
         case "Выйти":
             await ctx.deleteMessage(ctx.chat_id);
             return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/840/5d2/8405d27b-2c91-300d-85cd-7dbd425a6e97/1.webp');
+
         case "Заново":
             await ctx.deleteMessage(ctx.chat_id);
             return ctx.reply('Выбери предмет:', options);
+
         case "Закончить работу":
             await ctx.deleteMessage(ctx.chat_id);
             return ctx.reply("Будем ждать тебя снова!");
+
+
+
+        // ______________________ 6я лаба ______________________
+
+        case "Купить 6ю":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.reply("С визуализацией или без?", lab6IfVisualOptions);
+
+        case "Визуал":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.reply("На какой ОС вы хотите запустить лабу?", visualLab6Options);
+
+        case "Без визуала":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.reply("Все лабы без визуализации запускаются на любых ОС. \nВыбери одну из трёх - они все рабочие," +
+                " но если тебе понадиботся другая реализация, можешь быть уверен, что они отличаются друг от друга", nonVisualLab6Options);
+
+        case "Винда/Убунту визуал":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6 visual windows/ubuntu", ctx.from.id)));
+
+        case "МакОС визуал":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6 visual macos", ctx.from.id)));
+
+        case "1я не визуал":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_1 not visual", ctx.from.id)));
+
+        case "2я не визуал":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_2 not visual", ctx.from.id)));
+
+        case "3я не визуал":
+            await ctx.deleteMessage(ctx.chat_id);
+            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_3 not visual", ctx.from.id)));
     }
 });
 
@@ -98,11 +168,24 @@ async function ProgReply(NumberOfLab, ctx) {
         await ctx.replyWithDocument({source: `${path}Laba${NumberOfLab}.zip`})
         if (ctx.from.id !== MY_ID)
             // Отправляю себе в лс действие
-            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n/labs" + `Лаба ${NumberOfLab} выдана (он - друг)\n`);
+            return bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
+                ctx.from.first_name + "\n/labs" + `Лаба ${NumberOfLab} выдана (он - друг)\n`);
     } else {
-
-        return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n`
-            + `Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
+        switch (NumberOfLab) {
+            case 2:
+            case 4:
+            case 5:
+                return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
+                    + `Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
+            case 3:
+                return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
+                    + `Хочешь купить ${NumberOfLab} лабу? \n\nРаботает на MacOS, Windows и Ubuntu.` +
+                    ` Пособия о том, как запустить лабу - прилагаются!`, paymentOptions);
+            case 6:
+                return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
+                    + `Хочешь купить ${NumberOfLab} лабу? \n\nЕсть версия как для MacOS, так и для Windows и Ubuntu.` +
+                    ` Пособия о том, как запустить лабу на той или иной платформе - прилагаются!`, lab6paymentOptions);
+        }
     }
 }
 
@@ -113,7 +196,8 @@ bot.on('successful_payment', async (ctx, next) => { // ответ в случа�
     await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
 
     if (ctx.from.id !== MY_ID)
-        await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " + ctx.from.first_name + "\n" + ` лаба ${NumberOfLab} выдана!\n`);
+        await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
+            ctx.from.first_name + "\n" + ` лаба ${NumberOfLab} выдана!\n`);
 
     return ctx.reply("Продолжим?", againOptions);
 })
@@ -124,26 +208,55 @@ function getInvoice(id, invoice) {
 
 function find_lab(NumberOfLab, id) {
     switch (NumberOfLab) {
-        case 2:
+        case "2":
             Lab2.chat_id = id;
             Lab2.unique_id = `${id}_${Number(new Date())}`
             return Lab2;
-        case 3:
+
+        case "3":
             Lab3.chat_id = id;
             Lab3.unique_id = `${id}_${Number(new Date())}`
             return Lab3;
-        case 4:
+
+        case "4":
             Lab4.chat_id = id;
             Lab4.unique_id = `${id}_${Number(new Date())}`
             return Lab4;
-        case 5:
+
+        case "5":
             Lab5.chat_id = id;
             Lab5.unique_id = `${id}_${Number(new Date())}`
             return Lab5;
-        case 6:
-            Lab6.chat_id = id;
-            Lab6.unique_id = `${id}_${Number(new Date())}`
-            return Lab6;
+
+        case "6 visual macos":
+            Lab6_VisualMacOS.chat_id = id;
+            Lab6_VisualMacOS.unique_id = `${id}_${Number(new Date())}`
+            return Lab6_VisualMacOS;
+
+        case "6_1 not visual": // надо исправить!!!
+            Lab6_1_notVisual.chat_id = id;
+            Lab6_1_notVisual.unique_id = `${id}_${Number(new Date())}`
+            return Lab6_1_notVisual;
+
+
+
+
+        // ___________________________ НАДО ИСПРАВИТЬ!!! ___________________
+
+        case "6 visual windows/ubuntu": // надо исправить!!!
+            Lab6_VisualWindows.chat_id = id;
+            Lab6_VisualWindows.unique_id = `${id}_${Number(new Date())}`
+            return Lab6_VisualWindows;
+
+        case "6_2 not visual": // надо исправить!!!
+            Lab6_2_notVisual.chat_id = id;
+            Lab6_2_notVisual.unique_id = `${id}_${Number(new Date())}`
+            return Lab6_2_notVisual;
+
+        case "6_3 not visual": // надо исправить!!!
+            Lab6_3_notVisual.chat_id = id;
+            Lab6_3_notVisual.unique_id = `${id}_${Number(new Date())}`
+            return Lab6_3_notVisual;
     }
 }
 
