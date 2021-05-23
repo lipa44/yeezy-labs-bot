@@ -1,20 +1,18 @@
 const token = "1659667430:AAGB1JMPmWvgl1iY5bBmuq5NCNeI5KpDqr0";
-const token_sber = "401643678:TEST:6361568d-ea79-4543-955e-14c573a7fba2";
+const token_sber = "401643678:TEST:67a0ddff-2651-4c09-8a13-43b56e3dea54";
 const fetch = require("node-fetch");
 const {Telegraf} = require('telegraf');
 const bot = new Telegraf(token);
 const MY_ID = 316816204
-
 
 require("dotenv").config();
 
 let friends = Array(316816204, 821173837, 848279890, 471236927, 371534155, 259399114);
 
 bot.start((ctx) => {
-
     console.log(ctx.from.username + " /start");
     return ctx.reply(
-        `Привет, ${ctx.message.from.first_name}! Это бот, который поможет тебе с обучением и всему научит!` +
+        `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему научит!\n` +
     `Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.`);
 });
 

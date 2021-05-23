@@ -1,6 +1,6 @@
 {
   "scripts": {
-    "start": "babel-node bot --presets=env"
+    "start": "node js/bot.js"
   },
   "dependencies": {
     "babel-cli": "^6.26.0",
@@ -26,9 +26,10 @@
   },
   "name": "bot",
   "version": "1.0.0",
-  "main": "index.js",
+  "main": "js/bot.js",
   "license": "MIT",
   "devDependencies": {},
   "author": "",
+  "keywords": [],
   "description": ""
 }
