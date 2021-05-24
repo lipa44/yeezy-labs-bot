@@ -36,7 +36,8 @@ let friends1 = Array(316816204, 821173837, 848279890, 471236927, 371534155, 2593
 
 bot.telegram.setMyCommands([
     {command: '/labs', description: 'Клавиатура с выбором лаб'},
-    {command: '/myLabs', description: 'Все твои лабы'}
+    {command: '/myLabs', description: 'Все твои лабы'},
+    {command: '/start', description: 'Начать!'},
 ])
 
 bot.start(async (ctx) => {
