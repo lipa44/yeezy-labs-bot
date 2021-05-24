@@ -23,7 +23,7 @@ module.exports = {
         _id: {
             type: String,
             required: true
-        },
+        }
 
     }, { versionKey: false })
 }

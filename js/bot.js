@@ -36,7 +36,7 @@ let friends1 = Array(316816204, 821173837, 848279890, 471236927, 371534155, 2593
 
 bot.telegram.setMyCommands([
     {command: '/labs', description: 'Клавиатура с выбором лаб'},
-    {command: '/myLabs', description: 'Все твои лабы'},
+    {command: '/my_labs', description: 'Все твои лабы'},
     {command: '/start', description: 'Начать!'},
 ])
 
@@ -228,7 +228,7 @@ bot.on('successful_payment', async (ctx, next) => { // ответ в случа�
 
     await ctx.reply('С вами приятно иметь дело!');
     // await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
-    await ctx.reply("Лабу я не дам)");
+    await ctx.reply("*Тут должна быть лаба*");
 
     if (ctx.from.id !== MY_ID)
         await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
@@ -237,7 +237,7 @@ bot.on('successful_payment', async (ctx, next) => { // ответ в случа�
     return ctx.reply("Продолжим?", againOptions);
 })
 
-bot.command("/myLabs", async (ctx) => {
+bot.command("/my_labs", async (ctx) => {
     await User.findOne({_id: `${ctx.from.id}`}, function (err, res) {
         if (err) return console.log(err);
 
