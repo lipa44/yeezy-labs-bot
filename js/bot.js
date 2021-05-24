@@ -1,6 +1,7 @@
 const token = "1659667430:AAGB1JMPmWvgl1iY5bBmuq5NCNeI5KpDqr0";
 const fetch = require("node-fetch");
 const {Telegraf} = require('telegraf');
+const {User} = require("./db")
 const bot = new Telegraf(token);
 
 const MY_ID = 316816204
@@ -175,6 +176,7 @@ async function ProgReply(NumberOfLab, ctx) {
             case 2:
             case 4:
             case 5:
+
                 return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
                     + `Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
             case 3:
@@ -189,17 +191,56 @@ async function ProgReply(NumberOfLab, ctx) {
     }
 }
 
-bot.on('pre_checkout_query', async (ctx) => await ctx.answerPreCheckoutQuery(true)) // ответ на предварительный запрос по оплате
+bot.on('pre_checkout_query', async (ctx) => { // ответ на предварительный запрос по оплате (сохраняем данные)
+    await ctx.answerPreCheckoutQuery(true);
+})
 
 bot.on('successful_payment', async (ctx, next) => { // ответ в случае положительной оплаты
+    const user = new User({
+        userData: {
+            name: ctx.from.first_name,
+            surname: ctx.from.last_name,
+            nickname: ctx.from.username
+        },
+        labs: [NumberOfLab],
+        _id: ctx.from.id,
+    });
+
+    await User.findOneAndUpdate({_id: `${ctx.from.id}`}, {$addToSet: {labs: NumberOfLab}}, {new: true}, function (err, res) {
+
+        if (res === null) {
+            if (NumberOfLab !== null) {
+                user.save(function (err) {
+
+                    if (err) return console.log(err);
+                    console.log("\nСоздан объект user", user);
+                });
+            }
+
+        } else {
+            res.labs = res.labs.sort();
+            if (err) return console.log(err);
+            console.log("\nОбновлён объект user", res);
+        }
+    });
+
     await ctx.reply('С вами приятно иметь дело!');
-    await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
+    // await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
+    await ctx.reply("Лабу я не дам)");
 
     if (ctx.from.id !== MY_ID)
         await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
             ctx.from.first_name + "\n" + ` лаба ${NumberOfLab} выдана!\n`);
 
     return ctx.reply("Продолжим?", againOptions);
+})
+
+bot.command("/myLabs", async (ctx) => {
+    await User.findOne({_id: `${ctx.from.id}`}, function (err, res) {
+        if (err) return console.log(err);
+
+        ctx.reply(`${res.userData.name}, вот все лабы, которые ты купил: ${res.labs.sort()}`);
+    })
 })
 
 function getInvoice(id, invoice) {
@@ -237,7 +278,6 @@ function find_lab(NumberOfLab, id) {
             Lab6_1_notVisual.chat_id = id;
             Lab6_1_notVisual.unique_id = `${id}_${Number(new Date())}`
             return Lab6_1_notVisual;
-
 
 
 
