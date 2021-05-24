@@ -1,3 +1,4 @@
 node_modules
 .idea
 .gitignore
+mongodb-macos-x86_64-4.4.6
