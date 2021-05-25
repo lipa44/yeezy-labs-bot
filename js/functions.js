@@ -74,17 +74,17 @@ module.exports = {
         return invoice;
     },
 
-    addUserLab: (ctx, NumberOfLab) => {
-        User.findOneAndUpdate({_id: `${ctx.from.id}`}, {$addToSet: {labs: NumberOfLab}}, {new: true}, (err, res) => {
+    addUserLab: async (ctx, NumberOfLab) => {
+        await User.findOneAndUpdate({_id: `${ctx.from.id}`}, {$addToSet: {labs: NumberOfLab}}, {new: true}, (err, res) => {
             if (err) return console.log(err);
             console.log("\nОбновлён объект user", res);
         })
     },
 
-    sendToMe: (ctx, NumberOfLab) => {
+    sendToMe: async (ctx, NumberOfLab) => {
         if (ctx.from.id !== MY_ID)
             // Отправляю себе в лс действие
-            bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
+            await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
                 ctx.from.first_name + "\n/labs" + `Лаба ${NumberOfLab} выдана\n`);
     }
 }

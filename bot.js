@@ -4,7 +4,7 @@ const {Telegraf} = require('telegraf');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const {User} = require("./js/db")
-const {find_lab, getInvoice, addUserLab, sendToMe} = require('./js/functions');
+const {find_lab, getInvoice, addUserLab, sendToMe, checkIfLabBought} = require('./js/functions');
 const {
     options,
     paymentOptions,
@@ -115,7 +115,15 @@ bot.on('callback_query', async (ctx) => {
 
         case "Купить":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab.toString(), ctx.from.id)));
+
+            User.findOne({_id: `${ctx.from.id}`}, async (err, res) => {
+                if (err) return console.log(err);
+                if (res.labs.includes(NumberOfLab))
+                    await ctx.reply("Эта лаба у вас уже куплена!");
+                else await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab.toString(), ctx.from.id)));
+            });
+
+            break;
 
         case "Выйти":
             await ctx.deleteMessage(ctx.chat_id);
