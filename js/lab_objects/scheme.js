@@ -25,5 +25,5 @@ module.exports = {
             required: true
         }
 
-    }, { versionKey: false })
+    }, { versionKey: false }),
 }

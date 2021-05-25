@@ -1,4 +1,5 @@
-const token_sber = "401643678:TEST:67a0ddff-2651-4c09-8a13-43b56e3dea54";
+require('dotenv').config({path: ".env"})
+const token_sber = process.env.SBER_TOKEN;
 
 module.exports = {
 

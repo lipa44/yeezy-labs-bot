@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const {userScheme} = require("./scheme")
+const {userScheme} = require("./lab_objects/scheme")
 const url = 'mongodb+srv://lipa:440825@cluster0.dmnvf.mongodb.net/yeezy-labs-bot?retryWrites=true&w=majority\n'
 
 let start = async () => {

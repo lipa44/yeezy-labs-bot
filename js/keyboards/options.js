@@ -63,8 +63,7 @@ module.exports = {
     nonVisualLab6Options: {
         reply_markup: JSON.stringify({
             inline_keyboard: [
-                [{text: '1я', callback_data: '1я не визуал'}, {text: '2я', callback_data: '2я не визуал'}],
-                [{text: '3я', callback_data: '3я не визуал'}]
+                [{text: '1я', callback_data: '1я не визуал'}, {text: '2я', callback_data: '2я не визуал'}, {text: '3я', callback_data: '3я не визуал'}]
             ]
         })
     }
