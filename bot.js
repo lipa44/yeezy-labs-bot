@@ -4,7 +4,7 @@ const {Telegraf} = require('telegraf');
 const bot = new Telegraf(process.env.BOT_TOKEN);
 
 const {User} = require("./js/db")
-const {find_lab, getInvoice, addUserLab, sendToMe, checkIfLabBought} = require('./js/functions');
+const {find_lab, getInvoice, addUserLab, sendToMe} = require('./js/functions');
 const {
     options,
     paymentOptions,
@@ -76,42 +76,43 @@ bot.on('callback_query', async (ctx) => {
     switch (ctx.callbackQuery.data) {
         case "Прога":
             await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-            return ctx.reply('Лабы 2го сема:', ProgOptions);
+            await ctx.reply('Лабы 2го сема:', ProgOptions);
+            break;
 
         case "1":
             NumberOfLab = 1;
-            await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-
-            addUserLab(ctx, NumberOfLab);
-            sendToMe(ctx, NumberOfLab);
-
-            let path = "Programming/Lab1/";
-            await ctx.replyWithDocument({source: `${path}Laba1.zip`});
-            return ctx.reply("Хочешь остальные лабы?", againOptions);
+            await ProgReply(1, ctx);
+            break;
 
         case "2":
             NumberOfLab = 2;
-            return ProgReply(2, ctx);
+            await ProgReply(2, ctx);
+            break;
 
         case "3":
             NumberOfLab = 3;
-            return ProgReply(3, ctx);
+            await ProgReply(3, ctx);
+            break;
 
         case "4":
             NumberOfLab = 4;
-            return ProgReply(4, ctx);
+            await ProgReply(4, ctx);
+            break;
 
         case "5":
             NumberOfLab = 5;
-            return ProgReply(5, ctx);
+            await ProgReply(5, ctx);
+            break;
 
         case "6":
             NumberOfLab = 6;
-            return ProgReply(6, ctx);
+            await ProgReply(6, ctx);
+            break;
 
         case "Алгосы":
             // await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-            return ctx.editMessageText('Алгосы пока не завезли');
+            await ctx.editMessageText('Алгосы пока не завезли');
+            break;
 
         case "Купить":
             await ctx.deleteMessage(ctx.chat_id);
@@ -127,15 +128,18 @@ bot.on('callback_query', async (ctx) => {
 
         case "Выйти":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/840/5d2/8405d27b-2c91-300d-85cd-7dbd425a6e97/1.webp');
+            await ctx.replyWithSticker('https://tlgrm.ru/_/stickers/840/5d2/8405d27b-2c91-300d-85cd-7dbd425a6e97/1.webp');
+            break;
 
         case "Заново":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.reply('Выбери предмет:', options);
+            await ctx.reply('Выбери предмет:', options);
+            break;
 
         case "Закончить работу":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.reply("Будем ждать тебя снова!");
+            await ctx.reply("Будем ждать тебя снова!");
+            break;
 
 
 
@@ -143,60 +147,89 @@ bot.on('callback_query', async (ctx) => {
 
         case "Купить 6ю":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.reply("С визуализацией или без?", lab6IfVisualOptions);
+            await ctx.reply("С визуализацией или без?", lab6IfVisualOptions);
+            break;
 
         case "Визуал":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.reply("На какой ОС вы хотите запустить лабу?", visualLab6Options);
+            await ctx.reply("На какой ОС вы хотите запустить лабу?", visualLab6Options);
+            break;
 
         case "Без визуала":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.reply("Все лабы без визуализации запускаются на любых ОС. \nВыбери одну из трёх - они все рабочие," +
+            await ctx.reply("Все лабы без визуализации запускаются на любых ОС. \nВыбери одну из трёх - они все рабочие," +
                 " но если тебе понадиботся другая реализация, можешь быть уверен, что они отличаются друг от друга", nonVisualLab6Options);
+            break;
 
         case "Винда/Убунту визуал":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6 visual windows/ubuntu", ctx.from.id)));
+            await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6 visual windows/ubuntu", ctx.from.id)));
+            break;
 
         case "МакОС визуал":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6 visual macos", ctx.from.id)));
+            await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6 visual macos", ctx.from.id)));
+            break;
 
         case "1я не визуал":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_1 not visual", ctx.from.id)));
+            await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_1 not visual", ctx.from.id)));
+            break;
 
         case "2я не визуал":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_2 not visual", ctx.from.id)));
+            await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_2 not visual", ctx.from.id)));
+            break;
 
         case "3я не визуал":
             await ctx.deleteMessage(ctx.chat_id);
-            return ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_3 not visual", ctx.from.id)));
+            await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab("6_3 not visual", ctx.from.id)));
+            break;
     }
 });
 
 async function ProgReply(NumberOfLab, ctx) {
     await ctx.deleteMessage(ctx.chat_id); // удаляем  клавиатуру выбора
-    let path = `Programming/Lab${NumberOfLab}/`;
+    let path = `labs/Programming/Lab${NumberOfLab}/`;
     if (friends.includes(ctx.from.id, 0) && ctx.from.id !== MY_ID) {
         await ctx.replyWithDocument({source: `${path}Laba${NumberOfLab}.zip`})
-        sendToMe(ctx, NumberOfLab);
+        await sendToMe(ctx, NumberOfLab);
     } else {
         switch (NumberOfLab) {
+            case 1:
+                User.findOne({_id: `${ctx.from.id}`}, async (err, res) => {
+                    if (err) return console.log(err);
+                    if (res.labs.includes(NumberOfLab))
+                        await ctx.reply("Эта лаба у вас уже куплена!");
+                    else {
+                        await addUserLab(ctx, NumberOfLab);
+                        await sendToMe(ctx, NumberOfLab);
+
+                        let path = "labs/Programming/Lab1/";
+                        await ctx.replyWithDocument({source: `${path}Laba1.zip`});
+                        await ctx.reply("Хочешь остальные лабы?", againOptions);
+                    }
+                });
+                break;
+
             case 2:
             case 4:
             case 5:
-                return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
+                await ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
                     + `Хочешь купить ${NumberOfLab} лабу?`, paymentOptions);
+                break;
+
             case 3:
-                return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
+                await ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
                     + `Хочешь купить ${NumberOfLab} лабу? \n\nРаботает на MacOS, Windows и Ubuntu.` +
                     ` Пособия о том, как запустить лабу - прилагаются!`, paymentOptions);
+                break;
+
             case 6:
-                return ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
+                await ctx.reply(`${ctx.from.first_name}, демо-версия распространяется только на первую лабу)\n\n`
                     + `Хочешь купить ${NumberOfLab} лабу? \n\nЕсть версия как для MacOS, так и для Windows и Ubuntu.` +
                     ` Пособия о том, как запустить лабу на той или иной платформе - прилагаются!`, lab6paymentOptions);
+                break;
         }
     }
 }
@@ -207,14 +240,14 @@ bot.on('pre_checkout_query', async (ctx) => { // ответ на предвар�
 
 bot.on('successful_payment', async (ctx) => { // ответ в случае положительной оплаты
 
-    addUserLab(ctx, NumberOfLab);
+    await addUserLab(ctx, NumberOfLab);
 
     await ctx.reply('С вами приятно иметь дело!');
 
     // await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
     await ctx.reply("*Тут должна быть лаба*");
 
-    sendToMe(ctx, NumberOfLab);
+    await sendToMe(ctx, NumberOfLab);
 
     return ctx.reply("Продолжим?", againOptions);
 })
@@ -222,7 +255,6 @@ bot.on('successful_payment', async (ctx) => { // ответ в случае по
 bot.command("/my_labs", async (ctx) => {
     await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
         if (err) return console.log(err);
-
         ctx.reply(`${res.userData.name}, вот все лабы, которые ты купил: ${res.labs.sort()}`);
     })
 })
