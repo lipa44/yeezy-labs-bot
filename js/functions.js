@@ -85,6 +85,6 @@ module.exports = {
         if (ctx.from.id !== MY_ID)
             // Отправляю себе в лс действие
             await bot.telegram.sendMessage(MY_ID, ctx.from.username + ", ID: " + ctx.from.id + " \nИмя: " +
-                ctx.from.first_name + "\n/labs" + `Лаба ${NumberOfLab} выдана\n`);
+                ctx.from.first_name + "\n/labs" + ` Лаба ${NumberOfLab} выдана\n`);
     }
 }

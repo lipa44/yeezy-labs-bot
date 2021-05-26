@@ -23,6 +23,9 @@ module.exports = {
         _id: {
             type: String,
             required: true
+        },
+        used_my_labs: {
+            type: Date,
         }
 
     }, { versionKey: false }),

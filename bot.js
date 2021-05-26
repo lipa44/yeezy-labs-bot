@@ -28,7 +28,7 @@ bot.telegram.setMyCommands([
 ])
 
 bot.start(async (ctx) => {
-    async function answer() {
+    setTimeout(async () => {
         console.log(ctx.from.username + " /start");
         await ctx.reply(
             `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему тебя научит!\n` +
@@ -43,6 +43,7 @@ bot.start(async (ctx) => {
             },
             labs: [],
             _id: ctx.from.id,
+            used_my_labs: new Date()
         });
 
         await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
@@ -55,9 +56,7 @@ bot.start(async (ctx) => {
         });
 
         await ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
-    }
-
-    setTimeout(answer, 1000);
+    }, 1000);
 });
 
 bot.hears(/\/отзыв (.+)/, async (ctx) => {
@@ -68,11 +67,9 @@ bot.hears(/\/отзыв (.+)/, async (ctx) => {
 });
 
 bot.command("labs", async (ctx) => {
-    async function answer() {
+    setTimeout(async () => {
         await ctx.reply('Выбери предмет:', options);
-    }
-
-    setTimeout(answer, 1000); // чтобы бот не крашился при многократных запросах
+    }, 1000);
 });
 
 // Если выбран предмет прога на всплывающей клавиатуре
@@ -151,7 +148,7 @@ bot.on('callback_query', async (ctx) => {
 
         // ______________________ 6я лаба ______________________
 
-        case "Купить 6ю":
+        case "Купить кубик":
             await ctx.deleteMessage(ctx.chat_id);
             await ctx.reply("С визуализацией или без?", lab6IfVisualOptions);
             break;
@@ -200,6 +197,7 @@ async function ProgReply(NumberOfLab, ctx) {
     if (friends.includes(ctx.from.id, 0) && ctx.from.id !== MY_ID) {
         await ctx.replyWithDocument({source: `${path}Laba${NumberOfLab}.zip`})
         await sendToMe(ctx, NumberOfLab);
+
     } else {
         switch (NumberOfLab) {
             case 1:
@@ -247,27 +245,42 @@ bot.on('pre_checkout_query', async (ctx) => { // ответ на предвар�
 bot.on('successful_payment', async (ctx) => { // ответ в случае положительной оплаты
 
     await addUserLab(ctx, NumberOfLab);
+    await sendToMe(ctx, NumberOfLab);
 
     await ctx.reply('С вами приятно иметь дело!');
-
-    // await ctx.replyWithDocument({source: `Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
-    await ctx.reply("*Тут должна быть лаба*");
-
-    await sendToMe(ctx, NumberOfLab);
+    await ctx.replyWithDocument({source: `labs/Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
 
     await ctx.reply("Продолжим?", againOptions);
 })
 
+const millisecondsInDay = 86400000;
+
 bot.command("/my_labs", async (ctx) => {
-    async function answer() {
-        await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
+    setTimeout(async () => {
+        await User.findOne({_id: `${ctx.from.id}`}, async (err, res) => {
             if (err) return console.log(err);
-            ctx.reply(`${res.userData.name}, вот все лабы, которые ты купил: ${res.labs.sort()}`);
+
+            if (Date.now() - res.used_my_labs >= millisecondsInDay || ctx.from.id === MY_ID) {
+                await User.findOneAndUpdate({_id: `${ctx.from.id}`}, {used_my_labs: new Date()}, async (err, res) => {
+                    if (err) console.log(err);
+                    console.log(`Дата вызова my_labs обновлена на ${res.used_my_labs}`)
+                })
+
+                res.labs = res.labs.sort();
+
+                if (res.labs.length !== 0) {
+                    await ctx.reply(`${res.userData.name}, вот все лабы (кроме, возможно, кубика), которые ты купил: ${res.labs.sort()}`);
+                    for (const labNum of res.labs) {
+                        if (labNum === 6) continue;
+                        await ctx.replyWithDocument({source: `labs/Programming/Lab${labNum}/Laba${labNum}.zip`});
+                    }
+                } else
+                    await ctx.reply(`${res.userData.name}, ты ещё не купил ни одной лабы, но не расстраивайся, это не сложно исправить)`);
+
+            } else
+                await ctx.reply("Сегодня вы уже вызывали список своих лаб, проверьте выше!");
         })
-    }
-    setTimeout(answer, 1000);
+    }, 1000);
 })
 
-bot.launch();
-
-console.log("\nБот начал работу\n\nДействия:\n\n");
+bot.launch(console.log("\nБот начал работу\n\nДействия:\n\n"));
