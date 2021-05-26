@@ -28,31 +28,36 @@ bot.telegram.setMyCommands([
 ])
 
 bot.start(async (ctx) => {
-    console.log(ctx.from.username + " /start");
-    await ctx.reply(
-        `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему тебя научит!\n` +
-        `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
-        `2) Напиши /отзыв и то, что ты хочешь сказать разработчику в том же сообщении (например, благодарность)`);
+    async function answer() {
+        console.log(ctx.from.username + " /start");
+        await ctx.reply(
+            `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему тебя научит!\n` +
+            `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
+            `2) Напиши /отзыв и то, что ты хочешь передать разработчику в том же сообщении (например, благодарность)`);
 
-    const user = new User({
-        userData: {
-            name: ctx.from.first_name,
-            surname: ctx.from.last_name,
-            nickname: ctx.from.username
-        },
-        labs: [],
-        _id: ctx.from.id,
-    });
+        const user = new User({
+            userData: {
+                name: ctx.from.first_name,
+                surname: ctx.from.last_name,
+                nickname: ctx.from.username
+            },
+            labs: [],
+            _id: ctx.from.id,
+        });
 
-    await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
-        if (res === null)
-            user.save((err) => {
-                if (err) return console.log(err);
-                console.log("\nСоздан объект user", user);
-            });
-    });
+        await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
+            if (err) console.log(err)
+            if (res === null)
+                user.save((err) => {
+                    if (err) return console.log(err);
+                    console.log("\nСоздан объект user", user);
+                });
+        });
 
-    return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
+        return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
+    }
+
+    setTimeout(answer, 1000);
 });
 
 bot.hears(/\/отзыв (.+)/, async (ctx) => {
@@ -253,10 +258,13 @@ bot.on('successful_payment', async (ctx) => { // ответ в случае по
 })
 
 bot.command("/my_labs", async (ctx) => {
-    await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
-        if (err) return console.log(err);
-        ctx.reply(`${res.userData.name}, вот все лабы, которые ты купил: ${res.labs.sort()}`);
-    })
+    async function answer() {
+        await User.findOne({_id: `${ctx.from.id}`}, (err, res) => {
+            if (err) return console.log(err);
+            ctx.reply(`${res.userData.name}, вот все лабы, которые ты купил: ${res.labs.sort()}`);
+        })
+    }
+    setTimeout(answer, 1000);
 })
 
 bot.launch();
