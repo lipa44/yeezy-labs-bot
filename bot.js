@@ -54,7 +54,7 @@ bot.start(async (ctx) => {
                 });
         });
 
-        return ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
+        await ctx.replyWithSticker('https://tlgrm.ru/_/stickers/df4/f95/df4f9509-d0dd-4275-bc09-0784a16344de/3.webp');
     }
 
     setTimeout(answer, 1000);
@@ -64,12 +64,12 @@ bot.hears(/\/отзыв (.+)/, async (ctx) => {
     let review = ctx.message.text.split("/отзыв").pop();
     await bot.telegram.sendMessage(MY_ID, `НОВЫЙ ОТЗЫВ:${review}.\n\nАвтор отзыва - @${ctx.from.username}`);
 
-    return ctx.reply("Спасибо за отзыв!");
+    await ctx.reply("Спасибо за отзыв!");
 });
 
 bot.command("labs", async (ctx) => {
     async function answer() {
-        return ctx.reply('Выбери предмет:', options);
+        await ctx.reply('Выбери предмет:', options);
     }
 
     setTimeout(answer, 1000); // чтобы бот не крашился при многократных запросах
@@ -126,7 +126,8 @@ bot.on('callback_query', async (ctx) => {
                 if (err) return console.log(err);
                 if (res.labs.includes(NumberOfLab))
                     await ctx.reply("Эта лаба у вас уже куплена!");
-                else await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab.toString(), ctx.from.id)));
+                else
+                    await ctx.replyWithInvoice(getInvoice(ctx.from.id, find_lab(NumberOfLab.toString(), ctx.from.id)));
             });
 
             break;
@@ -254,7 +255,7 @@ bot.on('successful_payment', async (ctx) => { // ответ в случае по
 
     await sendToMe(ctx, NumberOfLab);
 
-    return ctx.reply("Продолжим?", againOptions);
+    await ctx.reply("Продолжим?", againOptions);
 })
 
 bot.command("/my_labs", async (ctx) => {
