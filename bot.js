@@ -33,7 +33,9 @@ bot.start(async (ctx) => {
         await ctx.reply(
             `Привет, ${ctx.message.from.first_name}! \nЭто бот, который поможет тебе с обучением и всему тебя научит!\n` +
             `1) Напиши /labs и выбери лабораторную работу, с которой у тебя проблемы.\n` +
-            `2) Напиши /отзыв и то, что ты хочешь передать разработчику в том же сообщении (например, благодарность)`);
+            `2) Напиши /my_labs и получи весь список своих лаб (доступно раз в день)\n` +
+            `3) Напиши /отзыв и то, что ты хочешь передать разработчику в том же сообщении (например, благодарность)\n\n` +
+            `Никакие данные пользоватей (ваши данные) не передаются сторонним лицам, ваша информация конфиденциальна`);
 
         const user = new User({
             userData: {
@@ -248,6 +250,7 @@ bot.on('successful_payment', async (ctx) => { // ответ в случае по
     await sendToMe(ctx, NumberOfLab);
 
     await ctx.reply('С вами приятно иметь дело!');
+
     await ctx.replyWithDocument({source: `labs/Programming/Lab${NumberOfLab}/Laba${NumberOfLab}.zip`});
 
     await ctx.reply("Продолжим?", againOptions);

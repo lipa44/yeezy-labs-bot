@@ -28,5 +28,6 @@ module.exports = {
             type: Date,
         }
 
-    }, { versionKey: false }),
+    }, {versionKey: false})
+
 }
