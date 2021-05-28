@@ -9,7 +9,8 @@ const {
     sendToMe,
     addUserLabNameAndNum,
     buyLab,
-    sendLab
+    sendLab,
+    addUserLab
 } = require('./js/functions');
 
 const {
@@ -140,13 +141,13 @@ bot.on('callback_query', async (ctx) => {
             break;
 
         case "Заново":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText('Выбери предмет:', options);
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply('Выбери предмет:', options);
             break;
 
         case "Закончить работу":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText("Будем ждать тебя снова!");
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply("Будем ждать тебя снова!");
             break;
 
 
@@ -154,29 +155,29 @@ bot.on('callback_query', async (ctx) => {
         // ______________________ 6я лаба ______________________
 
         case "Купить кубик":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText("С визуализацией или без?", lab6IfVisualOptions);
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply("С визуализацией или без?", lab6IfVisualOptions);
             break;
 
         case "Визуал":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText("На какой ОС вы хотите запустить лабу?", visualLab6Options);
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply("На какой ОС вы хотите запустить лабу?", visualLab6Options);
             break;
 
         case "Без визуала":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText("Все лабы без визуализации запускаются на любых ОС. \nВыбери одну из трёх - они все рабочие," +
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply("Все лабы без визуализации запускаются на любых ОС. \nВыбери одну из трёх - они все рабочие," +
                 " но если тебе понадиботся другая реализация, можешь быть уверен, что они отличаются друг от друга", nonVisualLab6Options);
             break;
 
         case "Винда/Убунту визуал":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText("Эту лабу ещё не завезли(");
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply("Эту лабу ещё не завезли(");
             break;
 
         case "МакОС визуал":
-            // await ctx.deleteMessage(ctx.chat_id);
-            await ctx.editMessageText("Выбери одну из двух - они все рабочие," +
+            await ctx.deleteMessage(ctx.chat_id);
+            await ctx.reply("Выбери одну из двух - они все рабочие," +
                 " но если тебе понадиботся другая реализация, можешь быть уверен, что они отличаются друг от друга", visualLab6macOSOptions)
             break;
 
@@ -224,10 +225,11 @@ async function ProgReply(NumberOfCurLab, ctx) {
             case 1:
                 await User.findOne({_id: `${ctx.from.id}`}, async (err, res) => {
                     if (err) return console.log(err);
-                    if (res.labs.includes(NumberOfCurLab))
-                        await ctx.reply("Эта лаба у вас уже куплена!");
+                    if (res.labs.includes(`${NumberOfCurLab}`))
+                        await ctx.reply("Эта лаба у вам уже выдана!");
                     else {
                         await addUserLabNameAndNum(ctx, "1", "1");
+                        await addUserLab(ctx, "1");
                         await sendToMe(ctx, NumberOfCurLab);
 
                         let path = "labs/Programming/Lab1/";
