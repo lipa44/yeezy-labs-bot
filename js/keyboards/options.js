@@ -60,6 +60,14 @@ module.exports = {
         })
     },
 
+    visualLab6macOSOptions: {
+        reply_markup: JSON.stringify({
+            inline_keyboard: [
+                [{text: '1я', callback_data: 'МакОС визуал 1'}, {text: '2я', callback_data: 'МакОС визуал 2'}]
+            ]
+        })
+    },
+
     nonVisualLab6Options: {
         reply_markup: JSON.stringify({
             inline_keyboard: [

@@ -26,7 +26,14 @@ module.exports = {
         },
         used_my_labs: {
             type: Date,
-        }
+        },
+        cur_lab_num: {
+            type: String
+        },
+        cur_lab_name: {
+            type: String
+        },
+
 
     }, {versionKey: false})
 
