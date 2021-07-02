@@ -4,3 +4,5 @@ node_modules
 /.idea
 /mongodb-macos-x86_64-4.4.6
 mongodb-macos-x86_64-4.4.6
+.env
+/.env
