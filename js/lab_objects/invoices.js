@@ -1,12 +1,12 @@
 require('dotenv').config({path: ".env"})
-const token_sber = process.env.SBER_TOKEN;
+const token_payment = process.env.PAYMENT_TOKEN;
 
 module.exports = {
 
     Lab2: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №2 - Полином', // 1-32 символа
         description: "Лаба с этого года, не заеженная", // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -16,14 +16,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab3: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №3 - Парсер', // 1-32 символа
         description: "Лаба с этого года, не заеженная", // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -33,14 +33,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab4: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №4 - Шаблоны', // 1-32 символа
         description: "Лаба с этого года, не заеженная", // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -50,14 +50,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab5: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №5 - Кольцевой буффер', // 1-32 символа
         description: "Лаба с этого года, не заеженная", // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -67,14 +67,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab6_1_VisualMacOS: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №6.1 + OpenGL', // 1-32 символа
         description: 'Кубик Рубика с визуализацией на OpenGL и Glut под MacOS + гайд по запуску и советы по рефакторингу кода. Лаба с этого года, не заеженная', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -84,14 +84,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab6_2_VisualMacOS: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №6.2 + OpenGL', // 1-32 символа
         description: 'Кубик Рубика с визуализацией на OpenGL и Glut под MacOS + гайд по запуску и советы по рефакторингу кода. Лаба с этого года, не заеженная', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -101,14 +101,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab6_VisualWindows: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №6 - кубик с визуализацией', // 1-32 символа
         description: 'Кубик Рубика с визуализацией на OpenGL и Glut под Windows/Ubuntu + гайд по запуску и советы по рефакторингу кода. Лаба с этого года, не заеженная', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -118,14 +118,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab6_0_notVisual: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №6.0 - кубик без визуала', // 1-32 символа
         description: 'Кубик Рубика без визуализации на любую платформу + инструкция с объяснениями по коду и помощью с запуском кода. Лаба с этого года, не заеженная', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -135,14 +135,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab6_1_notVisual: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №6.1 - кубик без визуала', // 1-32 символа
         description: 'Кубик Рубика без визуализации на любую платформу + инструкция с объяснениями по коду и помощью с запуском кода. Лаба с этого года, не заеженная', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -152,14 +152,14 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     },
 
     Lab6_2_notVisual: {
         chat_id: "",
         start_parameter: 'get_access',
-        provider_token: token_sber,
+        provider_token: token_payment,
         title: 'Лаба №6.2 - кубик без визуала', // 1-32 символа
         description: 'Кубик Рубика без визуализации на любую платформу + инструкция с объяснениями по коду и помощью с запуском кода. Лаба с этого года, не заеженная', // 1-255 знаков
         currency: 'RUB', // Трехбуквенный код валюты ISO 4217
@@ -169,7 +169,7 @@ module.exports = {
         photo_height: 500,
         payload: { // Полезные данные счета-фактуры, определенные ботом, 1–128 байт. Это не будет отображаться пользователю, используйте его для своих внутренних процессов.
             unique_id: "",
-            provider_token: token_sber
+            provider_token: token_payment
         }
     }
 }
