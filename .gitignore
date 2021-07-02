@@ -2,3 +2,5 @@ node_modules
 .idea
 .DS_Store
 /.idea
+/mongodb-macos-x86_64-4.4.6
+mongodb-macos-x86_64-4.4.6
